@@ -9,6 +9,7 @@ extern "c" {
 #endif
 
 struct io_stats {
+	struct io_stats *next;
 	char dev_name[512];
 	/* # of sectors read */
 	unsigned long long rd_sectors   __attribute__ ((aligned (8)));//以8字节对齐的方式分配
@@ -40,9 +41,11 @@ struct io_stats {
 	unsigned long dk_drive_wblk __attribute__ ((packed));
 };
 
-struct io_stats *read_disk_statistics(char *dname);
-int do_print(struct io_stats *iostats);
-void cal_iostats(struct io_stats *iostats);
+void get_cpu_stat();
+struct io_stats *read_disk_statistics();
+int do_print();
+void write_iostats(struct io_stats *iostats);
+void save_io_stat(struct io_stats *iostats);
 
 #ifdef __cplusplus
 }
